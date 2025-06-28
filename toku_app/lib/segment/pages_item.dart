@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:toku_app/models/item_model.dart';
+import 'package:toku_app/segment/item_info.dart';
 
 class PagesItem extends StatelessWidget {
   PagesItem({super.key, required this.itemModel});
@@ -15,55 +16,17 @@ class PagesItem extends StatelessWidget {
       color: itemModel.color,
 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        
         children: [
           Container(
-            color: const Color.fromARGB(179, 224, 223, 219),
+            color: const Color.fromARGB(179, 65, 64, 64),
             width: 100,
             child: Image.asset(
               itemModel.img,
             ),
           ),
-          Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 10),
-                  child: Text(
-                    itemModel.txtJapn,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, bottom: 2),
-                  child: Text(
-                    itemModel.txtEnglish,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          Spacer(),
-          IconButton(
-            onPressed: () {
-              itemModel.playSound();
-            },
- 
-            icon: Icon(
-              Icons.play_arrow,
-              color: Colors.black,
-            ),
+          Expanded(
+            child: ItemInfo(itemModel: itemModel),
           ),
         ],
       ),

@@ -7,7 +7,7 @@ class FamilyView extends StatelessWidget {
   FamilyView({super.key, required this.itemCourse});
   final ItemCourse itemCourse;
 
-  final List<ItemModel> numbers = [
+  final List<ItemModel> family = [
     ItemModel(
       txtJapn: "Chichioya",
       txtEnglish: "Father",
@@ -95,9 +95,9 @@ class FamilyView extends StatelessWidget {
       ),
 
       body: ListView.builder(
-        itemCount: numbers.length,
+        itemCount: family.length,
         itemBuilder: (context, index) {
-          return PagesItem(itemModel: numbers[index]);
+          return PagesItem(itemModel: family[index]); 
         },
       ),
     );
