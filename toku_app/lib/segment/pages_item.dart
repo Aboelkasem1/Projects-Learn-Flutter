@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toku_app/models/item_model.dart';
 
 class PagesItem extends StatelessWidget {
-  const PagesItem({super.key, required this.itemModel});
+  PagesItem({super.key, required this.itemModel});
 
   final ItemModel itemModel;
 
@@ -12,7 +12,7 @@ class PagesItem extends StatelessWidget {
     return Container(
       height: 100,
       width: double.infinity,
-      color: Colors.blue,
+      color: itemModel.color,
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

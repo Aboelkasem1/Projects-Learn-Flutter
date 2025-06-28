@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 
 class ItemModel {
@@ -5,12 +6,16 @@ class ItemModel {
   final String txtEnglish;
   final String img; 
   final String sound;
+  final Color color;
+
 
   const ItemModel({
     required this.txtJapn,
     required this.txtEnglish,
     required this.img,
     required this.sound,
+    required this.color,
+    
   });
 
   playSound() async {

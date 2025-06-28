@@ -20,14 +20,8 @@ class HomeView extends StatelessWidget {
       ),
 
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return HomeItem(
-              itemCourse: items[index],
-              pageName: NumbersView(itemCourse: items[index]),
-            );
-          },
+        child: ListView(
+          children: viewPages(),
         ),
       ),
     );
@@ -39,4 +33,25 @@ class HomeView extends StatelessWidget {
     ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
     ItemCourse(title: "Phrases", color: Colors.teal),
   ];
+
+  List<Widget> pages = [
+    NumbersView(
+      itemCourse: ItemCourse(title: "Numbers", color: Colors.red),
+    ),
+    FamilyView(
+      itemCourse: ItemCourse(title: "Family", color: Colors.lightBlue),
+    ),
+    ColorsView(
+      itemCourse: ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
+    ),
+  ];
+
+  List<HomeItem> viewPages() {
+    List<HomeItem> list = [];
+    for (int i = 0; i < pages.length; i++) {
+      list.add(HomeItem(itemCourse: items[i], pageName: pages[i]));
+    }
+
+    return list;
+  }
 }
