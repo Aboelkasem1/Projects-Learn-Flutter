@@ -19,14 +19,16 @@ class HomeView extends StatelessWidget {
         backgroundColor: Colors.black,
       ),
 
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return HomeItem(
-            itemCourse: items[index],
-            pageName: NumbersView(itemCourse: items[index]),
-          );
-        },
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return HomeItem(
+              itemCourse: items[index],
+              pageName: NumbersView(itemCourse: items[index]),
+            );
+          },
+        ),
       ),
     );
   }
@@ -36,6 +38,5 @@ class HomeView extends StatelessWidget {
     ItemCourse(title: "Family", color: Colors.lightBlue),
     ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
     ItemCourse(title: "Phrases", color: Colors.teal),
-    
   ];
 }
