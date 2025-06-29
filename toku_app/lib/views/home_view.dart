@@ -4,6 +4,7 @@ import 'package:toku_app/segment/home_item.dart';
 import 'package:toku_app/views/colors_view.dart';
 import 'package:toku_app/views/family_view.dart';
 import 'package:toku_app/views/numbers_view.dart';
+import 'package:toku_app/views/phrases_view.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
@@ -32,6 +33,7 @@ class HomeView extends StatelessWidget {
     ItemCourse(title: "Family", color: Colors.lightBlue),
     ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
     ItemCourse(title: "Phrases", color: Colors.teal),
+    ItemCourse(title: "Phrases", color: Colors.brown), 
   ];
 
   List<Widget> pages = [
@@ -43,6 +45,9 @@ class HomeView extends StatelessWidget {
     ),
     ColorsView(
       itemCourse: ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
+    ),
+    PhrasesView(
+      itemCourse: ItemCourse(title: "Phrases", color: Colors.teal),
     ),
   ];
 

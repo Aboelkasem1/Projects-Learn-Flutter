@@ -26,7 +26,14 @@ class PagesItem extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ItemInfo(itemModel: itemModel),
+            child: ItemInfo(
+              item: Item(
+                txtJapn: itemModel.txtJapn,
+                txtEnglish: itemModel.txtEnglish,
+                sound: itemModel.sound,
+                color: itemModel.color,
+              ),
+            ),
           ),
         ],
       ),
