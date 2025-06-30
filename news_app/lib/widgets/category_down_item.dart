@@ -17,7 +17,7 @@ class CategoryDownItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image(image: AssetImage(items.img)),
+            child: Image.asset(items.img),
           ),
           Text(
             items.topTitl,
