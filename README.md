@@ -24,7 +24,7 @@ This repository contains a collection of basic Flutter projects I built while le
 
   
 - **ela_slaty**  
-  A prayer time reminder app that notifies users of daily Islamic prayer times. Built with a clean UI, Arabic language support, and local notification integration.
+  A prayer time reminder app that notifies users of daily Islamic prayer times. Built with a clean UI and Arabic language support.
 
 ## Getting Started
 
