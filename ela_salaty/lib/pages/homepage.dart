@@ -21,7 +21,7 @@ class Homepage extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
-                SalatAlan(salatAlan: const SalatModel(name: "صلاة الفجر", time: "5:00 AM")),
+                SalatAlan(),
                 RowCenter(),
                 AlaZkar(),
               ],

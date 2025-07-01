@@ -12,41 +12,23 @@ class SalatService {
     Map<String, dynamic> articles = response.data;
     Map<String, dynamic> data = articles['data'];
     Map<String, dynamic> timings = data['timings'];
-    Map<String, dynamic> date = data['date'];
+    Map<String, dynamic> date = data['date']['hijri'];
 
+    String formatDate =
+        "${date['year']} ${date['weekday']['ar']}: ${date['day']} ${date['month']['ar']}";
     List<SalatModel> listSalat = [];
 
+    listSalat.add(SalatModel(formatDate, name: 'الفجر', time: timings['Fajr']));
     listSalat.add(
-      SalatModel(
-        name: 'الفجر',
-        time: timings['Fajr'],
-      ), 
+      SalatModel(formatDate, name: 'الظهر', time: timings['Dhuhr']),
+    );
+    listSalat.add(SalatModel(formatDate, name: 'العصر', time: timings['Asr']));
+    listSalat.add(
+      SalatModel(formatDate, name: 'المغرب', time: timings['Maghrib']),
     );
     listSalat.add(
-      SalatModel(
-        name: 'الظهر',
-        time: timings['Dhuhr'],
-      ),     
+      SalatModel(formatDate, name: 'العشاء', time: timings['Isha']),
     );
-    listSalat.add(
-      SalatModel(
-        name: 'العصر',
-        time: timings['Asr'],
-      ),     
-    );
-    listSalat.add(
-      SalatModel(
-        name: 'المغرب',
-        time: timings['Maghrib'],
-      ),     
-    );
-    listSalat.add(
-      SalatModel(
-        name: 'العشاء',
-        time: timings['Isha'],
-      ),     
-    );
-
 
     return listSalat;
     // print(articles);
