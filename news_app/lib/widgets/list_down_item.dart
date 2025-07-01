@@ -6,25 +6,13 @@ import 'package:news_app/models/top_item_model.dart';
 import 'package:news_app/widgets/category_down_item.dart';
 import 'package:dio/dio.dart';
 
-class ListDownItem extends StatefulWidget {
-  ListDownItem({super.key});
 
-  @override
-  State<ListDownItem> createState() => _ListDownItemState();
-}
+class ListDownItem extends StatelessWidget {
 
-class _ListDownItemState extends State<ListDownItem> {
-  List<ArticleModel> items = [];
+  final List<ArticleModel> items;
 
-  initState() {
-    newMethodService();
-    super.initState();
-  }
+  ListDownItem({required this.items});
 
-  Future<void> newMethodService() async {
-    items = await NewsService(dio: Dio()).getNews();
-    setState(() {});
-  }
   // List<DownItemModel> items =
   @override
   Widget build(BuildContext context) {
