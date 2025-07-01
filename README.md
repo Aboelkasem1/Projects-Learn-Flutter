@@ -22,6 +22,10 @@ This repository contains a collection of basic Flutter projects I built while le
 - **toku_app**  
   A language learning app that plays audio for words and phrases in different categories.
 
+  
+- **ela_slaty**  
+  A prayer time reminder app that notifies users of daily Islamic prayer times. Built with a clean UI, Arabic language support, and local notification integration.
+
 ## Getting Started
 
 1. Make sure Flutter is installed on your system.
