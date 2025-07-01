@@ -1,5 +1,8 @@
 import 'package:ela_salaty/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:ela_salaty/service/salat_service.dart';
+import 'package:dio/dio.dart';
+import 'package:ela_salaty/service/time_service.dart';
 
 void main() {
   runApp(const ElaSalaty());
