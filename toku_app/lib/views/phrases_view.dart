@@ -13,55 +13,55 @@ class PhrasesView extends StatelessWidget {
       txtJapn: 'kimasu ka?', // Are you coming?
       txtEnglish: 'Are you coming?',
       sound: 'sounds/phrases/are_you_coming.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'chane toku warnide kudasi', // Don’t forget to subscribe
       txtEnglish: 'Don’t forget to subscribe',
       sound: 'sounds/phrases/dont_forget_to_subscribe.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'chōshi wa dō desu ka?', // How are you feeling?
       txtEnglish: 'How are you feeling?',
       sound: 'sounds/phrases/how_are_you_feeling.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'anime ga daisuki desu', // I love anime
       txtEnglish: 'I love anime',
       sound: 'sounds/phrases/i_love_anime.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'prograingu ga daisuki desu', // I love programming
       txtEnglish: 'I love programming',
       sound: 'sounds/phrases/i_love_programming.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'purogrming a kantn desu', // Programming is easy
       txtEnglish: 'Programming is easy',
       sound: 'sounds/phrases/programming_is_easy.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'onamae wa nan desu ka?', // What is your name?
       txtEnglish: 'What is your name?',
       sound: 'sounds/phrases/what_is_your_name.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'doko e iku no?', // Where are you going?
       txtEnglish: 'Where are you going?',
       sound: 'sounds/phrases/where_are_you_going.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
     Item(
       txtJapn: 'hai, ikimasu', // Yes, I’m coming
       txtEnglish: 'Yes, I’m coming',
       sound: 'sounds/phrases/yes_im_coming.wav',
-      color: Colors.brown,
+      color: Color(0xFFC8E6C9),
     ),
   ];
 

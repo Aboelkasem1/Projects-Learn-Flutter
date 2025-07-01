@@ -25,7 +25,7 @@ class ItemInfo extends StatelessWidget {
                       item.txtJapn,
                       style: TextStyle(
                         fontSize: 24,
-                        color: Colors.white,
+                        color: Colors.black87,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -36,7 +36,7 @@ class ItemInfo extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 10.0, bottom: 2),
                     child: Text(
                       item.txtEnglish,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: TextStyle(fontSize: 20, color: Colors.grey[700]),
                     ),
                   ),
                 ),

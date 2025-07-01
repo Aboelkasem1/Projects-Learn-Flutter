@@ -13,11 +13,20 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Home",
-          style: TextStyle(fontSize: 32, color: Colors.white),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8, bottom: 10),
+          child: Icon(Icons.home, size: 50, color: Color(0xFFB2DFDB)),
         ),
-        backgroundColor: Colors.black,
+        title: Text(
+          
+          "Home",
+          style: TextStyle(
+            fontSize: 32,
+            color: Color.fromARGB(255, 238, 244, 255),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 28, 34, 41),
       ),
 
       body: SafeArea(
@@ -25,29 +34,30 @@ class HomeView extends StatelessWidget {
           children: viewPages(),
         ),
       ),
+
+      backgroundColor: Color(0xffF5F5F5),
     );
   }
 
   List<ItemCourse> items = [
-    ItemCourse(title: "Numbers", color: Colors.red),
-    ItemCourse(title: "Family", color: Colors.lightBlue),
-    ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
-    ItemCourse(title: "Phrases", color: Colors.teal),
-    ItemCourse(title: "Phrases", color: Colors.brown), 
+    ItemCourse(title: "Numbers", color: Color(0xff00796B)),
+    ItemCourse(title: "Family", color: Color(0xffE64A19)),
+    ItemCourse(title: "Colors", color: Color(0xff303F9F)),
+    ItemCourse(title: "Phrases", color: Color(0xff388E3C)),
   ];
 
   List<Widget> pages = [
     NumbersView(
-      itemCourse: ItemCourse(title: "Numbers", color: Colors.red),
+      itemCourse: ItemCourse(title: "Numbers", color: Color(0xff00796B)),
     ),
     FamilyView(
-      itemCourse: ItemCourse(title: "Family", color: Colors.lightBlue),
+      itemCourse: ItemCourse(title: "Family", color: Color(0xffE64A19)),
     ),
     ColorsView(
-      itemCourse: ItemCourse(title: "Colors", color: Colors.deepPurpleAccent),
+      itemCourse: ItemCourse(title: "Colors", color: Color(0xff303F9F)),
     ),
     PhrasesView(
-      itemCourse: ItemCourse(title: "Phrases", color: Colors.teal),
+      itemCourse: ItemCourse(title: "Phrases", color: Color(0xff388E3C)),
     ),
   ];
 
