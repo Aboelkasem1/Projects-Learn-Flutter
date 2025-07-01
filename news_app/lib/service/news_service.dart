@@ -17,12 +17,14 @@ class NewsService {
     List<ArticleModel> list = [];
 
     for (var article in articles) {
-      ArticleModel articleModel = ArticleModel(
-        title: article['title'],
-        description: article['description'],
-        urlToImage: article['urlToImage'],
-      );
-      list.add(articleModel);
+      if (article['urlToImage'] != null && article['description'] != null) {
+        ArticleModel articleModel = ArticleModel(
+          title: article['title'],
+          description: article['description'],
+          urlToImage: article['urlToImage'],
+        );
+        list.add(articleModel);
+      }
     }
 
     return list;
