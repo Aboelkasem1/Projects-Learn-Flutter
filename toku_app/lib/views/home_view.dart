@@ -18,7 +18,6 @@ class HomeView extends StatelessWidget {
           child: Icon(Icons.home, size: 50, color: Color(0xFFB2DFDB)),
         ),
         title: Text(
-          
           "Home",
           style: TextStyle(
             fontSize: 32,
@@ -40,24 +39,37 @@ class HomeView extends StatelessWidget {
   }
 
   List<ItemCourse> items = [
-    ItemCourse(title: "Numbers", color: Color(0xff00796B)),
-    ItemCourse(title: "Family", color: Color(0xffE64A19)),
-    ItemCourse(title: "Colors", color: Color(0xff303F9F)),
-    ItemCourse(title: "Phrases", color: Color(0xff388E3C)),
+
+    ItemCourse(title: "Numbers", color: Color(0xff00796B)), //modified
+    ItemCourse(title: "Family", color: Color(0xffE64A19)), //modified
+    ItemCourse(title: "Colors", color: Color(0xff303F9F)), //modified
+    ItemCourse(title: "Phrases", color: Color(0xff388E3C)), //modified
   ];
 
   List<Widget> pages = [
     NumbersView(
-      itemCourse: ItemCourse(title: "Numbers", color: Color(0xff00796B)),
+      itemCourse: ItemCourse(
+        title: "Numbers",
+        color: Color(0xff00796B),
+      ), //modified
     ),
     FamilyView(
-      itemCourse: ItemCourse(title: "Family", color: Color(0xffE64A19)),
+      itemCourse: ItemCourse(
+        title: "Family",
+        color: Color(0xffE64A19),
+      ), //modified
     ),
     ColorsView(
-      itemCourse: ItemCourse(title: "Colors", color: Color(0xff303F9F)),
+      itemCourse: ItemCourse(
+        title: "Colors",
+        color: Color(0xff303F9F),
+      ), //modified
     ),
     PhrasesView(
-      itemCourse: ItemCourse(title: "Phrases", color: Color(0xff388E3C)),
+      itemCourse: ItemCourse(
+        title: "Phrases",
+        color: Color(0xff388E3C),
+      ), //modified
     ),
   ];
 
