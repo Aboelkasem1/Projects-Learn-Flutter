@@ -1,14 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/models/article_model.dart';
-import 'package:news_app/models/down_item_model.dart';
+import 'package:news_app/models/news_article_model.dart';
 
-class CategoryDownItem extends StatelessWidget {
-  const CategoryDownItem({
+class SubcategoryTile extends StatelessWidget {
+  const SubcategoryTile({
     super.key,
     required this.items,
   });
 
-  final ArticleModel items;
+  final NewsArticleModel items;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,11 @@ class CategoryDownItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: items.urlToImage != null
-                ? Image.network(items.urlToImage!)
-                : Image.asset('assets/no_image.png'),
+            child: CachedNetworkImage(
+              imageUrl: items.urlToImage!,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
           ),
           Text(
             items.title,
