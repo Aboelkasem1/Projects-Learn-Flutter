@@ -10,25 +10,16 @@ class NewsCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: const Color.fromARGB(255, 238, 234, 231),
-            size: 32,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
-          category[0].toUpperCase() + category.substring(1),
+          category,
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 238, 234, 231),
+            color: const Color.fromARGB(255, 255, 255, 255),
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 197, 125, 17),
+        backgroundColor: const Color.fromARGB(255, 225, 149, 36),
         centerTitle: true,
       ),
       body: Padding(
@@ -37,7 +28,7 @@ class NewsCategoryView extends StatelessWidget {
           slivers: [
             SliverList(
               delegate: SliverChildListDelegate([
-                NewsListBuilder(category: category),
+                NewsListBuilder(category: category.toLowerCase()),
               ]),
             ),
           ],

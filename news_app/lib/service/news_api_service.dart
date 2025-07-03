@@ -22,6 +22,7 @@ class NewsApiService {
             title: article['title'],
             description: article['description'],
             urlToImage: article['urlToImage'],
+            url: article['url'],
           );
           list.add(articleModel);
         }

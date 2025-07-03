@@ -8,12 +8,15 @@ class CategoryListItem extends StatelessWidget {
   });
 
   final List<CategoryMainItemModel> topItemModel = const [
-    CategoryMainItemModel(name: "sports", img: "assets/sports.avif"),
-    CategoryMainItemModel(name: "entertainment", img: "assets/entertaiment.avif"),
-    CategoryMainItemModel(name: "health", img: "assets/health.avif"),
-    CategoryMainItemModel(name: "business", img: "assets/business.avif"),
-    CategoryMainItemModel(name: "science", img: "assets/science.avif"),
-    CategoryMainItemModel(name: "technology", img: "assets/technology.jpeg"),
+    CategoryMainItemModel(name: "Sports", img: "assets/sports.avif"),
+    CategoryMainItemModel(
+      name: "Entertainment",
+      img: "assets/entertaiment.avif",
+    ),
+    CategoryMainItemModel(name: "Health", img: "assets/health.avif"),
+    CategoryMainItemModel(name: "Business", img: "assets/business.avif"),
+    CategoryMainItemModel(name: "Science", img: "assets/science.avif"),
+    CategoryMainItemModel(name: "Technology", img: "assets/technology.jpeg"),
   ];
 
   @override

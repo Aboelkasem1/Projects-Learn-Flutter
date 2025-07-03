@@ -38,7 +38,7 @@ class CategoryItem extends StatelessWidget {
 
         child: Center(
           child: Text(
-            topItemModel.name[0].toUpperCase() + topItemModel.name.substring(1),
+            topItemModel.name,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
