@@ -1,16 +1,12 @@
-# to_do_app
+## 📝 Project: ToDo App
 
-A new Flutter project.
+I’ve created a new Flutter app called **ToDo** 🎯  
+This app allows users to:
 
-## Getting Started
+- Add and display daily tasks
+- Mark tasks as completed
+- Automatically move completed tasks to a separate section
+- Smooth and clean UI with task status indicator
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Currently, the core logic and UI structure are done.  
+More features like animations, task editing, and persistent storage will be added soon. 🚀
