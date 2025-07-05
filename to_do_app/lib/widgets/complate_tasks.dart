@@ -1,63 +1,90 @@
-import 'package:app_to_testing/components/checked.dart';
-import 'package:app_to_testing/main.dart';
-import 'package:app_to_testing/widgets/text_tasks.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_app/components/checked.dart';
+import 'package:to_do_app/main.dart';
+import 'package:to_do_app/widgets/text_tasks.dart';
 
-class ComplateTaskes extends StatefulWidget {
-  ComplateTaskes({super.key});
+class CompleteTasks extends StatefulWidget {
+  const CompleteTasks({super.key});
   @override
-  State<ComplateTaskes> createState() => _ComplateTaskesState();
+  State<CompleteTasks> createState() => _CompleteTasksState();
 }
 
-class _ComplateTaskesState extends State<ComplateTaskes> {
-  updateTask(int index, bool newValue) {
-    if (newValue) {
-      completeTasks[index].state = true;
-    }
-    else {
-      completeTasks[index].state = false;
-    }
+class _CompleteTasksState extends State<CompleteTasks> {
+  void updateTask(int index, bool newValue) {
+    completeTasks[index].state = newValue;
     setState(() {
-      tasks.add(completeTasks[index]);
-      completeTasks.removeAt(index);
+      if (!newValue) {
+        tasks.add(completeTasks[index]);
+        completeTasks.removeAt(index);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(
-      itemCount: completeTasks.length,
-      itemBuilder: (context, index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.blueGrey,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Checked(
-                    state: completeTasks[index].state!,
-                    onChanged: (bool newValue) {
-                      setState(() {
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Delete Task'),
+                    content: const Text(
+                      'Are you sure you want to delete this task?',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            completeTasks.removeAt(index);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Delete'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Checked(
+                      state: completeTasks[index].state!,
+                      onChanged: (bool newValue) {
                         updateTask(index, newValue);
-                      });
-                    },
+                      },
+                    ),
                   ),
-                ),
-                TextTaskes(
-                  name: completeTasks[index].name,
-                  state: completeTasks[index].state!,
-                ),
-              ],
+                  TextTaskes(
+                    name: completeTasks[index].name,
+                    state: completeTasks[index].state!,
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
+        childCount: completeTasks.length),
     );
   }
 }

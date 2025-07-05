@@ -1,6 +1,6 @@
-import 'package:app_to_testing/models/task_model.dart';
-import 'package:app_to_testing/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_app/models/task_model.dart';
+import 'package:to_do_app/pages/home_page.dart';
 
  List<TaskModel> tasks = [
     TaskModel(name: "Complete Flutter tutorial", state: false),

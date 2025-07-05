@@ -1,7 +1,8 @@
-import 'package:app_to_testing/components/checked.dart';
-import 'package:app_to_testing/main.dart';
-import 'package:app_to_testing/models/task_model.dart';
-import 'package:app_to_testing/widgets/text_tasks.dart';
+import 'package:to_do_app/components/checked.dart';
+import 'package:to_do_app/main.dart';
+import 'package:to_do_app/models/task_model.dart';
+import 'package:to_do_app/widgets/complate_tasks.dart';
+import 'package:to_do_app/widgets/text_tasks.dart';
 import 'package:flutter/material.dart';
 
 class BodyWidget extends StatefulWidget {
@@ -12,51 +13,62 @@ class BodyWidget extends StatefulWidget {
 }
 
 class _BodyWidgetState extends State<BodyWidget> {
-
   void updateTask(int index, bool newValue) {
     setState(() {
-      tasks[index] = TaskModel(name: tasks[index].name, state: newValue);
+      final task = tasks[index];
+      tasks[index] = TaskModel(name: task.name, state: newValue);
       if (newValue) {
-        completeTasks.add(TaskModel(name: tasks[index].name, state: newValue));
+        completeTasks.add(TaskModel(name: task.name, state: newValue));
         tasks.removeAt(index);
+        
       } else {
-        completeTasks.removeAt(index);
+        completeTasks.removeWhere((t) => t.name == task.name);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(
-      itemCount: tasks.length,
-      itemBuilder: (context, index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              color: tasks[index].state!
-                  ? Colors.blueGrey
-                  : const Color(0xff243545),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Checked(
-                    state: tasks[index].state!,
-                    onChanged: (bool newValue) {
-                      updateTask(index, newValue);
-                    },
+          child: GestureDetector(
+            onScaleStart: (details) {
+              setState(() {
+                tasks[index].state = true;
+              });
+            },
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: tasks[index].state!
+                    ? Colors.blueGrey
+                    : const Color(0xff243545),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Checked(
+                      state: tasks[index].state!,
+                      onChanged: (bool newValue) {
+                        updateTask(index, newValue);
+                      },
+                    ),
                   ),
-                ),
-                TextTaskes(name: tasks[index].name, state: tasks[index].state!,),
-              ],
+                  TextTaskes(
+                    name: tasks[index].name,
+                    state: tasks[index].state!,
+                  ),
+                ],
+              ),
             ),
           ),
         );
       },
+        childCount: tasks.length),
     );
   }
 }
