@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextTaskes extends StatelessWidget {
-  const TextTaskes({
+class TextTasks extends StatelessWidget {
+  const TextTasks({
     super.key,
     required this.name,
     required this.state,
