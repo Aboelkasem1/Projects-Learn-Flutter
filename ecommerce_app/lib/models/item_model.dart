@@ -5,6 +5,7 @@ class ItemModel extends ChangeNotifier {
     Items(img: "assets/iphone16.jpeg", name: "iphone16", price: 65000),
     Items(img: "assets/iphone13.jpeg", name: "iphone13", price: 45000),
     Items(img: "assets/iphone11.jpeg", name: "iphone11", price: 33000),
+    Items(img: "assets/iphone16.jpeg", name: "iphone16", price: 65000),
   ];
 
   List<Items> cartitems = [];
