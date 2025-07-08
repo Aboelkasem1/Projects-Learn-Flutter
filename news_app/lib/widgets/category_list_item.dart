@@ -3,9 +3,7 @@ import 'package:news_app/models/category_main_item_model.dart';
 import 'package:news_app/widgets/category_item.dart';
 
 class CategoryListItem extends StatelessWidget {
-  const CategoryListItem({
-    super.key,
-  });
+  const CategoryListItem({super.key});
 
   final List<CategoryMainItemModel> topItemModel = const [
     CategoryMainItemModel(name: "Sports", img: "assets/sports.avif"),
