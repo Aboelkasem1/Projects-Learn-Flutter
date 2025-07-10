@@ -3,6 +3,7 @@ import 'package:to_do_app/components/common/checked.dart';
 import 'package:to_do_app/models/model.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/widgets/task_text.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
@@ -18,46 +19,49 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
+    return Slidable(
       key: UniqueKey(),
-      direction: DismissDirection.endToStart,
-      background: Align(
-        alignment: Alignment.centerRight,
-        child: Container(
-          width: 100,
-          height: 100,
-          margin: EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            color: Colors.red,
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () {
+            model.deleteTask(task);
+          },
+          confirmDismiss: () async {
+            final result = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Delete Task"),
+                  content: Text("Are you sure you want to delete this task?"),
+                  actions: [
+                    TextButton(
+                      child: Text("Cancel"),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                    TextButton(
+                      child: Text("Delete"),
+                      onPressed: () => Navigator.of(context).pop(true),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            return result ?? false; 
+          },
+        ),
+        children: [
+          SlidableAction(
+            onPressed: (_) {},
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Delete',
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Icon(Icons.delete, color: Colors.white),
-        ),
+        ],
       ),
-      confirmDismiss: (direction) async {
-        return await showDialog<bool>(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text("Delete Task"),
-              content: Text("Are you sure you want to delete this task?"),
-              actions: [
-                TextButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.of(context).pop(false),
-                ),
-                TextButton(
-                  child: Text("Delete"),
-                  onPressed: () => Navigator.of(context).pop(true),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      onDismissed: (direction) {
-        model.deleteTask(task);
-      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
