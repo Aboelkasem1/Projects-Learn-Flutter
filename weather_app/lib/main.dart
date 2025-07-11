@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/models/weather_model.dart';
-import 'package:weather_app/pages/home_page.dart';
+import 'package:weather_app/models/test.dart';
+import 'package:weather_app/screens/home_screen.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => WeatherModel(),
-      child: const MyApp(),
-    ),
-  );
+  runApp(ChangeNotifierProvider(create: (context) => CityName(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,10 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      theme: ThemeData(primarySwatch: Colors.grey),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeScreen());
   }
 }
