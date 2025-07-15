@@ -5,7 +5,6 @@ import 'package:uni_chat/models/messageRegister.dart';
 import 'package:uni_chat/models/user_model.dart';
 import 'package:uni_chat/screens/auth/login_screen.dart';
 import 'package:uni_chat/screens/auth/register_screen.dart';
-import 'package:uni_chat/screens/home/home_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +16,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers:[
-        ChangeNotifierProvider(create: (context) => UserModelList()),
+        ChangeNotifierProvider(create: (context) => UserModel()),
         ChangeNotifierProvider(create: (context) => Messageregister()),
       ],
       child: UniChat(),
@@ -34,7 +33,7 @@ class UniChat extends StatelessWidget {
       routes: {
         LoginScreen.ID: (context) => LoginScreen(),
         RegisterScreen.ID: (context) => RegisterScreen(),
-        HomeScreen.ID: (context) => HomeScreen(),
+
       },
       initialRoute: LoginScreen.ID,
     );

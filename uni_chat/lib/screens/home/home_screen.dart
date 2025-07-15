@@ -1,7 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uni_chat/models/chat_model.dart';
-import 'package:uni_chat/screens/chat/chat_screen.dart';
+import 'package:uni_chat/screens/account/account_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,57 +8,67 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chatList = Provider.of<ChatList>(context);
+    final User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('UniChat', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'UniChat',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: Colors.black,
         centerTitle: true,
+        toolbarHeight: 80,
         actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-
-              chatList.addChat(ChatModel(
-                chatId: DateTime.now().millisecondsSinceEpoch.toString(),
-                senderId: 'u1',
-                senderName: 'Ali',
-                receiverId: 'u2',
-              ));
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AccountScreen()),
+              );
             },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.white,
+                child: user?.photoURL == null
+                    ? const Icon(Icons.person, color: Colors.black)
+                    : Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.greenAccent,
+                            width: 5,
+                          ),
+                        ),
+                        child: ClipOval(
+                          child: Image.network(
+                            user!.photoURL!,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+              ),
+            ),
           ),
+          SizedBox(width: 5),
         ],
       ),
-      body: chatList.chats.isEmpty
-          ? Center(
-              child: Text('No chats yet!', style: TextStyle(fontSize: 18)),
-            )
-          : ListView.builder(
-              padding: EdgeInsets.all(10),
-              itemCount: chatList.chats.length,
-              itemBuilder: (context, index) {
-                final chat = chatList.chats[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 3,
-                  child: ListTile(
-                    title: Text(chat.senderName),
-                    subtitle: Text('Receiver ID: ${chat.receiverId}'),
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.blue[300],
-                      child: Text(chat.senderName[0]),
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, ChatScreen.ID, arguments: chat);
-                    },
-                  ),
-                );
-              },
-            ),
+      body: Center(
+        child: Text(
+          'Welcome ${user?.displayName ?? user?.email ?? 'Guest'}',
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }
