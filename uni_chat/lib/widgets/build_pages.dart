@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_chat/models/selected_Index.dart';
+import 'package:uni_chat/screens/account/account_screen.dart';
+import 'package:uni_chat/screens/home/home_screen.dart';
+import 'package:uni_chat/screens/settings/settings_screen.dart';
+import 'package:uni_chat/widgets/nav_bar_circle.dart';
+
+class BuildPages extends StatefulWidget {
+  const BuildPages({super.key});
+
+  @override
+  State<BuildPages> createState() => _BuildPagesState();
+}
+
+class _BuildPagesState extends State<BuildPages> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    final selectedIndex =
+        Provider.of<SelectedIndex>(context, listen: false).selectedIndex;
+    _pageController = PageController(initialPage: selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  final List<Widget> pages = const [
+    AccountScreen(),
+    HomeScreen(),
+    SettingsScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Consumer<SelectedIndex>(
+        builder: (context, selectedIndex, child) {
+          return PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              selectedIndex.setSelectedIndex(index);
+            },
+            children: pages,
+          );
+        },
+      ),
+      bottomNavigationBar: NavBarCircle(
+        onTap: (index) {
+          _pageController.jumpToPage(index);
+        },
+      ),
+    );
+  }
+}

@@ -12,8 +12,8 @@ class UserHaveAccountOrNot extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         nextPage == 'Login'
-            ? const Text('Already have an account?')
-            : const Text('Don\'t have an account?'),
+            ?  Text('Already have an account?')
+            :  Text('Don\'t have an account?'),
         const SizedBox(width: 5),
         GestureDetector(
           onTap: () {
@@ -28,8 +28,7 @@ class UserHaveAccountOrNot extends StatelessWidget {
           },
           child: Text(
             nextPage,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline,
             ),

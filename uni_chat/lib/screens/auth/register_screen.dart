@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_chat/models/messageRegister.dart';
-import 'package:uni_chat/screens/auth/componante/user_have_account_or_not.dart';
+import 'package:uni_chat/widgets/auth_widgets/user_have_account_or_not.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {

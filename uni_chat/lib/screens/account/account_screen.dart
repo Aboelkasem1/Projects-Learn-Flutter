@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'widgets/avatar_widget.dart';
-import 'widgets/editable_name_widget.dart';
-import 'widgets/email_display.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_chat/models/user_model.dart';
+import '../../widgets/account_widgets/avatar_widget.dart';
+import '../../widgets/account_widgets/editable_name_widget.dart';
+import '../../widgets/account_widgets/email_display.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
     setState(() => isEdit = false);
 
+    Provider.of<UserModel>(context, listen: false).setUserName(newName);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Name updated to "$newName"'),
@@ -47,9 +51,9 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.white),
-        title: const Text('Account', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.black,
+        automaticallyImplyLeading: false,
+        title: const Text('Account'),
+
         centerTitle: true,
         toolbarHeight: 80,
       ),
