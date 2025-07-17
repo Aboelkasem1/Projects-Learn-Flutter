@@ -17,10 +17,12 @@ class _BuildPagesState extends State<BuildPages> {
   late PageController _pageController;
 
   @override
-  void initState() {
-    super.initState();
-    final selectedIndex =
-        Provider.of<SelectedIndex>(context, listen: false).selectedIndex;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final selectedIndex = Provider.of<SelectedIndex>(
+      context,
+      listen: false,
+    ).selectedIndex;
     _pageController = PageController(initialPage: selectedIndex);
   }
 
@@ -39,12 +41,22 @@ class _BuildPagesState extends State<BuildPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<SelectedIndex>(
+      body: Selector<SelectedIndex, int>(
+        selector: (_, provider) => provider.selectedIndex,
         builder: (context, selectedIndex, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (_pageController.hasClients) {
+              _pageController.jumpToPage(selectedIndex);
+            }
+          });
+
           return PageView(
             controller: _pageController,
             onPageChanged: (index) {
-              selectedIndex.setSelectedIndex(index);
+              Provider.of<SelectedIndex>(
+                context,
+                listen: false,
+              ).setSelectedIndex(index);
             },
             children: pages,
           );
@@ -52,7 +64,10 @@ class _BuildPagesState extends State<BuildPages> {
       ),
       bottomNavigationBar: NavBarCircle(
         onTap: (index) {
-          _pageController.jumpToPage(index);
+          Provider.of<SelectedIndex>(
+            context,
+            listen: false,
+          ).setSelectedIndex(index);
         },
       ),
     );

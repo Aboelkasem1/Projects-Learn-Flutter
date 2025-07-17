@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_chat/models/mode_model.dart';
+import 'package:uni_chat/screens/chat/chat_screen.dart';
 import 'package:uni_chat/widgets/home_widgets/body_info.dart';
 import 'package:uni_chat/widgets/home_widgets/image_bar.dart';
 
@@ -32,14 +34,72 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         toolbarHeight: 80,
         actions: [
-          const Icon(Icons.add, size: 40),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  TextEditingController chatNameController =
+                      TextEditingController();
+
+                  return AlertDialog(
+                    title: Text(
+                      'Join Chat',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: isDark ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    content: TextField(
+                      controller: chatNameController,
+                      decoration: const InputDecoration(hintText: 'Chat ID'),
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      TextButton(
+                        child: const Text('Join'),
+                        onPressed: () async {
+                          final chatName = chatNameController.text.trim();
+                          if (chatName.isNotEmpty) {
+                            final chatRef = FirebaseFirestore.instance
+                                .collection('chats')
+                                .doc(chatName);
+                            final docSnapshot = await chatRef.get();
+                            if (!docSnapshot.exists) {
+                              await chatRef.set({
+                                'createdAt': FieldValue.serverTimestamp(),
+                              });
+                            }
+
+                            Navigator.pop(context);
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ChatScreen(user: user, chatId: chatName),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: const Icon(Icons.add, size: 40),
+          ),
+
           const SizedBox(width: 5),
           GestureDetector(
             onTap: () {
               Provider.of<ModeModel>(context, listen: false).toggleMode();
             },
-            child: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 35,
-            ),
+            child: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 35),
           ),
           const SizedBox(width: 5),
         ],

@@ -5,22 +5,25 @@ import 'package:uni_chat/models/selected_Index.dart';
 
 class NavBarCircle extends StatelessWidget {
   final void Function(int)? onTap;
-  const NavBarCircle({super.key, this.onTap}); 
+  const NavBarCircle({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final selectedColor =
         Theme.of(context).bottomNavigationBarTheme.selectedItemColor ??
-            (isDark ? Colors.grey.shade300 : Colors.grey.shade700);
+        (isDark ? Colors.grey.shade300 : Colors.grey.shade700);
 
     return Consumer<SelectedIndex>(
       builder: (context, selectedIndex, child) => CircleNavBar(
         activeIndex: selectedIndex.selectedIndex,
         onTap: (index) {
           selectedIndex.setSelectedIndex(index);
-          onTap?.call(index);
+          if (onTap != null) {
+            onTap!(index);
+          }
         },
+
         activeIcons: const [
           Icon(Icons.person, size: 30),
           Icon(Icons.home, size: 30),
@@ -43,7 +46,7 @@ class NavBarCircle extends StatelessWidget {
         color: selectedColor,
         height: 70,
         circleWidth: 70,
-        
+
         shadowColor: selectedColor,
         circleShadowColor: selectedColor,
         elevation: 1,

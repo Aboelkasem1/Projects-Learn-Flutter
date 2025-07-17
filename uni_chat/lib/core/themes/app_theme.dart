@@ -15,7 +15,7 @@ class AppTheme {
         fontWeight: FontWeight.w600,
       ),
     ),
-
+    
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: Colors.black,
