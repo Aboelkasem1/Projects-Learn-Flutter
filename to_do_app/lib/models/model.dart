@@ -7,40 +7,44 @@ class Model extends ChangeNotifier {
     TaskModel(name: "Buy groceries", state: false),
     TaskModel(name: "Prepare presentation", state: false),
   ];
+
   List<TaskModel> completedTasks = [];
 
-  get UpactiveTasks => activeTasks;
-  get DowncompletedTasks => completedTasks;
 
-  addTask(String name) {
+  bool get allCompleted => activeTasks.isEmpty;
+
+  List<TaskModel> get upActiveTasks => activeTasks;
+  List<TaskModel> get downCompletedTasks => completedTasks;
+
+  void addTask(String name) {
     activeTasks.add(TaskModel(name: name, state: false));
     notifyListeners();
   }
 
-  completeTask(TaskModel task) {
+  void completeTask(TaskModel task) {
     task.state = true;
+    activeTasks.remove(task);
     completedTasks.add(task);
+    notifyListeners();
+  }
+
+  void deleteTask(TaskModel task) {
     activeTasks.remove(task);
     notifyListeners();
   }
 
-  deleteTask(TaskModel task) {
-    activeTasks.remove(task);
-    notifyListeners();
-  }
-
-  deleteCompleteTask(TaskModel task) {
+  void deleteCompleteTask(TaskModel task) {
     completedTasks.remove(task);
     notifyListeners();
   }
 
-  updateTask(int index, bool newValue) {
+  void updateTask(int index, bool newValue) {
     if (newValue) {
-      activeTasks[index].state = newValue;
+      activeTasks[index].state = true;
       completedTasks.add(activeTasks[index]);
       activeTasks.removeAt(index);
     } else {
-      completedTasks[index].state = newValue;
+      completedTasks[index].state = false;
       activeTasks.add(completedTasks[index]);
       completedTasks.removeAt(index);
     }

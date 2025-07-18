@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:to_do_app/components/common/checked.dart';
 import 'package:to_do_app/models/model.dart';
 import 'package:to_do_app/models/task_model.dart';
 import 'package:to_do_app/widgets/task_text.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({
