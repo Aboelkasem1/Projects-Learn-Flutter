@@ -52,6 +52,7 @@ class _SignInFormState extends State<SignInForm> {
                 const SizedBox(height: 40),
                 MyTextFormField(
                   controller: email,
+                  obscureText: false,
                   labelText: 'Email:',
                   hintText: 'Enter your email',
                   validatorText: 'Please enter your email',
@@ -59,6 +60,7 @@ class _SignInFormState extends State<SignInForm> {
                 const SizedBox(height: 15),
                 MyTextFormField(
                   controller: password,
+                  obscureText: true,
                   labelText: 'Password:',
                   hintText: 'Enter your password',
                   validatorText: 'Please enter your password',
@@ -118,6 +120,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 const SizedBox(height: 40),
                 MyTextFormField(
                   controller: email,
+                  obscureText: false,
                   labelText: 'Email:',
                   hintText: 'Enter your email',
                   validatorText: 'Please enter your email',
@@ -125,6 +128,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 const SizedBox(height: 15),
                 MyTextFormField(
                   controller: password,
+                  obscureText: true,
                   labelText: 'Password:',
                   hintText: 'Enter your password',
                   validatorText: 'Please enter your password',

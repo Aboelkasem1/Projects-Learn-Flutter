@@ -25,68 +25,57 @@ class ButtomBox extends StatelessWidget {
       onTap: () async {
         if (formKey.currentState!.validate()) {
           showLoadingDialog(context);
+          
           try {
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: email.text.trim(),
+              password: password.text.trim(),
+            );
+
+            final User? user = FirebaseAuth.instance.currentUser;
+            await user?.reload();
+            final updatedUser = user ?? FirebaseAuth.instance.currentUser;
+            hideLoadingDialog(context);
             if (email.text.trim() == 'admin@admin.com') {
               log('Admin Login');
-              await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: email.text.trim(),
-                password: password.text.trim(),
-              );
-
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => AdminScreen()),
+                MaterialPageRoute(builder: (context) => AdminScreen()),
               );
-              hideLoadingDialog(context);
+            } else if (updatedUser != null && updatedUser.emailVerified) {
+              log('User Login: ${updatedUser.email}');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => BuildPages()),
+              );
+            } else {
+              log('User not verified: ${updatedUser?.email}');
+              showSnackBar(context, 'Please verify your email address first.');
             }
+          } on FirebaseAuthException catch (e) {
+            hideLoadingDialog(context);
+            String message;
+            switch (e.code) {
+              case 'user-not-found':
+                message = 'No user found with this email.';
+                break;
+              case 'wrong-password':
+                message = 'Incorrect password. Please try again.';
+                break;
+              case 'invalid-credential':
+                message = 'Invalid email or password.';
+                break;
+              default:
+                message = 'Authentication error: ${e.code}';
+            }
+            log(message);
+            showSnackBar(context, message);
           } catch (e) {
-            log('Admin Login Error: ${e.toString()}');
-            showSnackBar(context, 'Admin login failed. Please try again.');
+            hideLoadingDialog(context);
+            final error = 'Something went wrong. Please try again.';
+            log('General Error: ${e.toString()}');
+            showSnackBar(context, error);
           }
-        //     final User? user = FirebaseAuth.instance.currentUser;
-        //     await user?.reload();
-        //     final updatedUser = FirebaseAuth.instance.currentUser;
-
-        //     if (email.text.trim() == 'admin@admin.com') {
-        //       log('Admin Login');
-        //       // Navigator.pushReplacement(
-        //       //   context,
-        //       //   MaterialPageRoute(builder: (context) => AdminScreen()),
-        //       // );
-        //     } else if (updatedUser != null && updatedUser.emailVerified) {
-        //       log('User Login: ${updatedUser.email}');
-        //       // Navigator.pushReplacement(
-        //       //   context,
-        //       //   MaterialPageRoute(builder: (context) => BuildPages()),
-        //       // );
-        //     } else {
-        //       log('User not verified: ${updatedUser?.email}');
-        //       showSnackBar(context, 'Please verify your email address first.');
-        //     }
-        //   } on FirebaseAuthException catch (e) {
-        //     String message;
-        //     switch (e.code) {
-        //       case 'user-not-found':
-        //         message = 'No user found with this email.';
-        //         break;
-        //       case 'wrong-password':
-        //         message = 'Incorrect password. Please try again.';
-        //         break;
-        //       case 'invalid-credential':
-        //         message = 'Invalid email or password.';
-        //         break;
-        //       default:
-        //         message = 'Authentication error: ${e.code}';
-        //     }
-        //     log(message);
-        //     showSnackBar(context, message);
-        //   } catch (e) {
-        //     final error = 'Something went wrong. Please try again.';
-        //     log('General Error: ${e.toString()}');
-        //     showSnackBar(context, error);
-        //   } finally {
-        //     hideLoadingDialog(context);
-        //   }
         }
       },
       child: Container(

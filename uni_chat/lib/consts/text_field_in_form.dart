@@ -8,12 +8,14 @@ class MyTextFormField extends StatelessWidget {
     required this.hintText,
     required this.validatorText,
     required this.controller,
+    required this.obscureText,
   });
 
   final String labelText;
   final String hintText;
   final String validatorText;
   final TextEditingController controller;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class MyTextFormField extends StatelessWidget {
           SizedBox(height: 2),
           TextFormField(
             controller: controller,
+            obscureText: obscureText,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_chat/screens/admins/users/users_admin_controle_screen.dart';
+import 'package:uni_chat/screens/auth/signin/sginin_screen.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
@@ -9,7 +11,22 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Admin Screen'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Admin Screen'),
+        centerTitle: true,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              if (context.mounted) {
+                Navigator.pushReplacementNamed(context, LoginScreen.ID);
+              }
+            },
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
