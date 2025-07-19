@@ -8,6 +8,7 @@ import 'package:uni_chat/widgets/nav_bar_circle.dart';
 
 class BuildPages extends StatefulWidget {
   const BuildPages({super.key});
+  static const String ID = 'BuildPages';
 
   @override
   State<BuildPages> createState() => _BuildPagesState();

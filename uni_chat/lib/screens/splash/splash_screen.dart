@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_chat/screens/auth/login_screen.dart';
+import 'package:uni_chat/screens/admins/admin_screen.dart';
+import 'package:uni_chat/screens/auth/signin/sginin_screen.dart';
+import 'package:uni_chat/widgets/build_pages.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-  static const String ID = '/splash';
+  static const String ID = 'SplashScreen';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -13,9 +16,26 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushNamed(context, LoginScreen.ID);
-    });
+    Future.delayed(const Duration(seconds: 3), checkAuthState);
+  }
+
+  void checkAuthState() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Navigator.pushReplacementNamed(context, LoginScreen.ID);
+    } else {
+      if (user.email == 'admin@admin.com') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => BuildPages()),
+        );
+      }
+    }
   }
 
   @override

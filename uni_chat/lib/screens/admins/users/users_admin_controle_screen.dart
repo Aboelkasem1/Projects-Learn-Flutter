@@ -1,0 +1,62 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:uni_chat/screens/admins/users/components/add_to_group_button.dart';
+import 'package:uni_chat/screens/admins/users/components/delete_user_button.dart';
+
+class UsersAdminControlScreen extends StatefulWidget {
+  const UsersAdminControlScreen({super.key});
+  static const String ID = 'UsersAdminControlScreen';
+
+  @override
+  State<UsersAdminControlScreen> createState() => _UsersAdminControlScreenState();
+}
+
+class _UsersAdminControlScreenState extends State<UsersAdminControlScreen> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Future<List<Map<String, dynamic>>> getUsers() async {
+    final snapshot = await firestore.collection('users').get();
+    return snapshot.docs
+        .map((doc) => {
+              'id': doc.id,
+              ...doc.data(),
+            })
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Users Admin Control'),
+        centerTitle: true,
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: getUsers(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+
+          final users = snapshot.data!;
+          return ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+              return ListTile(
+                title: Text(user['name'] ?? 'No name'),
+                subtitle: Text(user['email'] ?? user['id']),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    DeleteUserButton(userId: user['id']),
+                    const SizedBox(width: 8),
+                    AddToGroupButton(userId: user['id']),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
