@@ -7,11 +7,16 @@ import 'package:uni_chat/screens/auth/login_screen.dart';
 import 'package:uni_chat/build/home_widgets/body_info.dart';
 import 'package:uni_chat/build/home_widgets/image_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
   static const String id = 'HomeScreen';
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
