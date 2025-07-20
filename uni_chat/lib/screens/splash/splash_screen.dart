@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_chat/screens/admins/admin_screen.dart';
-import 'package:uni_chat/screens/auth/signin/sginin_screen.dart';
-import 'package:uni_chat/widgets/build_pages.dart';
+import 'package:uni_chat/screens/auth/login_screen.dart';
+import 'package:uni_chat/build/build_pages.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-  static const String ID = 'SplashScreen';
+  static const String id = 'SplashScreen';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,18 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkAuthState() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      Navigator.pushReplacementNamed(context, LoginScreen.ID);
+      Navigator.pushReplacementNamed(context, LoginScreen.id);
     } else {
       if (user.email == 'admin@admin.com') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AdminScreen()),
-        );
+        Navigator.pushReplacementNamed(context, AdminScreen.id);
       } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => BuildPages()),
-        );
+        Navigator.pushReplacementNamed(context, BuildPages.id);
       }
     }
   }

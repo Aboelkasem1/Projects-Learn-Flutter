@@ -1,23 +1,22 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni_chat/build/home_widgets/join_to_group_button.dart';
 import 'package:uni_chat/models/mode_model.dart';
-import 'package:uni_chat/screens/auth/signin/sginin_screen.dart';
-import 'package:uni_chat/widgets/home_widgets/body_info.dart';
-import 'package:uni_chat/widgets/home_widgets/image_bar.dart';
+import 'package:uni_chat/screens/auth/login_screen.dart';
+import 'package:uni_chat/build/home_widgets/body_info.dart';
+import 'package:uni_chat/build/home_widgets/image_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
-  static const String ID = 'HomeScreen';
+  static const String id = 'HomeScreen';
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     final User? user = FirebaseAuth.instance.currentUser;
-
+    
     if (user == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -36,31 +35,28 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         toolbarHeight: 80,
         actions: [
-          GestureDetector(onTap: () {}, child: const Icon(Icons.add, size: 40)),
-
+          JoinToGroupButton(userId: user.uid),
           const SizedBox(width: 5),
           GestureDetector(
             onTap: () {
               Provider.of<ModeModel>(context, listen: false).toggleMode();
             },
-            child: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 35),
+            child: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 30),
           ),
           const SizedBox(width: 5),
           GestureDetector(
             onTap: () async {
               await FirebaseAuth.instance.signOut();
-
               if (context.mounted) {
-                Navigator.pushReplacementNamed(context, LoginScreen.ID);
+                Navigator.pushReplacementNamed(context, LoginScreen.id);
               }
-
             },
-            child: Icon(Icons.logout, size: 35),
+            child: Icon(Icons.logout, size: 30),
           ),
           const SizedBox(width: 5),
         ],
       ),
-      body: BodyInfo(user: user),
+      body: BodyInfo(),
     );
   }
 }

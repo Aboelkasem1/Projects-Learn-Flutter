@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uni_chat/core/consts/consts.dart';
 import 'package:uni_chat/models/user_model.dart';
-import '../../widgets/account_widgets/avatar_widget.dart';
-import '../../widgets/account_widgets/editable_name_widget.dart';
-import '../../widgets/account_widgets/email_display.dart';
+import '../../build/account_widgets/avatar_widget.dart';
+import '../../build/account_widgets/editable_name_widget.dart';
+import '../../build/account_widgets/email_display.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -31,8 +33,17 @@ class _AccountScreenState extends State<AccountScreen> {
     final newName = nameController.text.trim();
     if (newName.isEmpty || newName == user?.displayName) return;
 
-    await user!.updateDisplayName(newName);
-    await user!.reload();
+    try {
+      await user!.updateDisplayName(newName);
+      await user!.reload();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update({'name': newName});
+    } catch (e) {
+      showSnackBarError(context, 'Failed to update name: ${e.toString()}');
+    }
+
     FocusScope.of(context).unfocus();
 
     setState(() => isEdit = false);

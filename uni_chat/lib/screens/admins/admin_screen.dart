@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_chat/screens/admins/users/users_admin_controle_screen.dart';
-import 'package:uni_chat/screens/auth/signin/sginin_screen.dart';
+import 'package:uni_chat/build/admin_widgets/screens/users_admin_controle_screen.dart';
+import 'package:uni_chat/screens/auth/login_screen.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
-  static const String ID = 'AdminScreen';
+  static const String id = 'AdminScreen';
 
 
   @override
@@ -21,7 +21,7 @@ class AdminScreen extends StatelessWidget {
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               if (context.mounted) {
-                Navigator.pushReplacementNamed(context, LoginScreen.ID);
+                Navigator.pushReplacementNamed(context, LoginScreen.id);
               }
             },
           ),
@@ -33,7 +33,7 @@ class AdminScreen extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, UsersAdminControlScreen.ID);
+                Navigator.pushNamed(context, UsersAdminControlScreen.id);
               },
               child: Container(
                 margin: const EdgeInsets.all(20.0),

@@ -1,13 +1,13 @@
 import 'dart:developer';
-import 'package:uni_chat/consts/consts.dart';
+import 'package:uni_chat/core/consts/consts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_chat/screens/admins/admin_screen.dart';
-import 'package:uni_chat/widgets/build_pages.dart';
+import 'package:uni_chat/build/build_pages.dart';
 
-class ButtomBox extends StatelessWidget {
-  const ButtomBox({
+class LoginButtonBox extends StatelessWidget {
+  const LoginButtonBox({
     super.key,
     required this.email,
     required this.password,
@@ -25,7 +25,6 @@ class ButtomBox extends StatelessWidget {
       onTap: () async {
         if (formKey.currentState!.validate()) {
           showLoadingDialog(context);
-          
           try {
             await FirebaseAuth.instance.signInWithEmailAndPassword(
               email: email.text.trim(),
@@ -34,23 +33,27 @@ class ButtomBox extends StatelessWidget {
 
             final User? user = FirebaseAuth.instance.currentUser;
             await user?.reload();
-            final updatedUser = user ?? FirebaseAuth.instance.currentUser;
+
             hideLoadingDialog(context);
-            if (email.text.trim() == 'admin@admin.com') {
+            if (email.text.trim() == 'admin@test.com') {
               log('Admin Login');
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => AdminScreen()),
               );
-            } else if (updatedUser != null && updatedUser.emailVerified) {
-              log('User Login: ${updatedUser.email}');
+            } else if (user != null && user.emailVerified) {
+              log('User Login: ${user.email}');
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => BuildPages()),
               );
             } else {
-              log('User not verified: ${updatedUser?.email}');
-              showSnackBar(context, 'Please verify your email address first.');
+              log('User not verified: ${user?.email}');
+              await FirebaseAuth.instance.signOut();
+              showSnackBarError(
+                context,
+                'Please verify your email address first.',
+              );
             }
           } on FirebaseAuthException catch (e) {
             hideLoadingDialog(context);
@@ -69,12 +72,12 @@ class ButtomBox extends StatelessWidget {
                 message = 'Authentication error: ${e.code}';
             }
             log(message);
-            showSnackBar(context, message);
+            showSnackBarError(context, message);
           } catch (e) {
             hideLoadingDialog(context);
             final error = 'Something went wrong. Please try again.';
             log('General Error: ${e.toString()}');
-            showSnackBar(context, error);
+            showSnackBarError(context, error);
           }
         }
       },

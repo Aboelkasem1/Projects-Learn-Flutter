@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_chat/screens/admins/users/components/add_to_group_button.dart';
-import 'package:uni_chat/screens/admins/users/components/delete_user_button.dart';
+import 'package:uni_chat/build/admin_widgets/components/add_to_group_admin_button.dart';
+import 'package:uni_chat/build/admin_widgets/components/delete_user_button.dart';
 
 class UsersAdminControlScreen extends StatefulWidget {
   const UsersAdminControlScreen({super.key});
-  static const String ID = 'UsersAdminControlScreen';
+  static const String id = 'UsersAdminControlScreen';
 
   @override
   State<UsersAdminControlScreen> createState() => _UsersAdminControlScreenState();
@@ -47,9 +47,9 @@ class _UsersAdminControlScreenState extends State<UsersAdminControlScreen> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    DeleteUserButton(userId: user['id']),
+                    DeleteUserButton(user: user),
                     const SizedBox(width: 8),
-                    AddToGroupButton(userId: user['id']),
+                    AddToGroupAdminButton(userId: user['id'], userName: user['name'] ?? 'Unknown User'),
                   ],
                 ),
               );

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_chat/models/mode_model.dart';
-import 'package:uni_chat/screens/auth/signin/components/logo_image_show.dart';
-import 'package:uni_chat/consts/signin_or_signup_form.dart';
+import 'package:uni_chat/build/auth_widgets/login/components/logo_image_show.dart';
+import 'package:uni_chat/build/auth_widgets/signin_or_signup_form.dart';
 import 'package:uni_chat/models/messageRegister.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  static const String ID = 'LoginScreen';
   const LoginScreen({super.key});
+  static const String id = 'LoginScreen';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     LogoImageShow(isDark: isDark),
 
                     // Form to login user
-                    SignInForm(),
+                    LogInForm(),
                   ],
                 ),
               ),

@@ -2,18 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_chat/screens/chat/chat_screen.dart';
-import 'package:uni_chat/widgets/home_widgets/image_bar.dart';
+import 'package:uni_chat/build/home_widgets/image_bar.dart';
 
-class BodyInfo extends StatelessWidget {
-  BodyInfo({super.key, required this.user});
+class BodyInfo extends StatefulWidget {
+  const BodyInfo({super.key});
 
-  final User? user;
+  @override
+  State<BodyInfo> createState() => _BodyInfoState();
+}
+
+class _BodyInfoState extends State<BodyInfo> {
+  final User? user = FirebaseAuth.instance.currentUser;
+
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<List<Map<String, dynamic>>> getUserGroups(String userId) async {
+  Future<List<Map<String, dynamic>>> getUserGroups() async {
     final snapshot = await firestore
         .collection('users')
-        .doc(userId)
+        .doc(user!.uid)
         .collection('groups')
         .get();
 
@@ -27,7 +33,7 @@ class BodyInfo extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getUserGroups(user!.email!),
+      future: getUserGroups(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -49,7 +55,7 @@ class BodyInfo extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        ChatScreen(user: user, chatId: group['groupId']),
+                        ChatScreen(group: group),
                   ),
                 );
               },

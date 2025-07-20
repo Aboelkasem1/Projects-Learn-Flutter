@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:uni_chat/consts/signin_or_signup_form.dart';
+import 'package:uni_chat/build/auth_widgets/signin_or_signup_form.dart';
 
-// ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
-  static const String ID = 'RegisterScreen';
+  const RegisterScreen({super.key});
+  static const String id = 'RegisterScreen';
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -42,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
-        body: SignUpForm(),
+        body: RegisterForm(),
       ),
     );
   }

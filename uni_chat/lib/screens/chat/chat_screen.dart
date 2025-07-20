@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_chat/widgets/home_widgets/get_messages.dart';
+import 'package:uni_chat/build/chat_widgets/get_messages.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.user, required this.chatId});
+  const ChatScreen({super.key, required this.group});
 
-  static const String ID = 'chat_screen';
-  final User? user;
-  final String chatId;
+  static final String id = 'ChatScreen';
+  final Map<String, dynamic> group;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -17,14 +16,14 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   late TextEditingController _controller;
   late CollectionReference messages;
-
+  final User? user = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     messages = FirebaseFirestore.instance
-        .collection('chats')
-        .doc(widget.chatId)
+        .collection('groups')
+        .doc(widget.group['groupId'])
         .collection('messages');
   }
 
@@ -34,44 +33,43 @@ class _ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
+  void sendMessage() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty || user == null) return;
+
+    await messages.add({
+      'senderId': user!.uid,
+      'senderName': user!.displayName ?? 'Anonymous',
+      'message': text,
+      'time': FieldValue.serverTimestamp(),
+    });
+
+    _controller.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final groupName = widget.group['name'] ?? 'Group Chat';
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        title: Text(widget.user?.displayName ?? 'UserName'),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.greenAccent, width: 5),
-            ),
-            child: ClipOval(
-              child: Image.network(
-                widget.user?.photoURL ??
-                    'https://i.pinimg.com/1200x/6a/b9/42/6ab942853c377376f282156d1eba9c88.jpg',
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ],
+        title: Text(
+          groupName,
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Column(
         children: [
           Expanded(
-            child: GetMessages(widget.chatId, widget.user?.displayName ?? 'Me'),
+            child: GetMessages(widget.group['groupId'], user?.uid ?? ''),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withAlpha(50),
+                  color: isDark ? Colors.grey[800]! : Colors.grey[200]!,
                   spreadRadius: 1,
                   blurRadius: 1,
                   offset: const Offset(0, 1),
@@ -84,27 +82,32 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: 'Type a message',
+                      hintText: 'Type a message...',
                       filled: true,
+                      fillColor: isDark ? Colors.grey[700] : Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
                       ),
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () async {
-                    final text = _controller.text.trim();
-                    if (text.isNotEmpty) {
-                      await messages.add({
-                        'sender': widget.user?.displayName ?? 'Me',
-                        'message': text,
-                        'time': FieldValue.serverTimestamp(),
-                      });
-                      _controller.clear();
-                    }
-                  },
+                const SizedBox(width: 8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.grey[700] : Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: sendMessage,
+                    ),
+                  ),
                 ),
               ],
             ),

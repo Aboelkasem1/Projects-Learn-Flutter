@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:uni_chat/consts/text_field_in_form.dart';
-import 'package:uni_chat/screens/auth/signin/components/signin_buttom_box.dart';
-import 'package:uni_chat/screens/auth/signup/components/signup_buttom_box.dart';
-import 'package:uni_chat/widgets/auth_widgets/user_have_account_or_not.dart';
+import 'package:uni_chat/build/auth_widgets/register/components/selecter_role.dart';
+import 'package:uni_chat/build/auth_widgets/text_field_in_form.dart';
+import 'package:uni_chat/build/auth_widgets/login/components/login_buttom_box.dart';
+import 'package:uni_chat/build/auth_widgets/register/components/register_buttom_box.dart';
+import 'package:uni_chat/build/auth_widgets/user_have_account_or_not.dart';
 
 // ignore: must_be_immutable
-class SignInForm extends StatefulWidget {
-  const SignInForm({super.key});
+class LogInForm extends StatefulWidget {
+  const LogInForm({super.key});
 
   @override
-  State<SignInForm> createState() => _SignInFormState();
+  State<LogInForm> createState() => _LogInFormState();
 }
 
-class _SignInFormState extends State<SignInForm> {
+class _LogInFormState extends State<LogInForm> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -66,7 +67,11 @@ class _SignInFormState extends State<SignInForm> {
                   validatorText: 'Please enter your password',
                 ),
                 const SizedBox(height: 20),
-                ButtomBox(email: email, password: password, formKey: _formKey),
+                LoginButtonBox(
+                  email: email,
+                  password: password,
+                  formKey: _formKey,
+                ),
                 const SizedBox(height: 10),
                 const UserHaveAccountOrNot(nextPage: 'Sign Up'),
               ],
@@ -78,18 +83,19 @@ class _SignInFormState extends State<SignInForm> {
   }
 }
 
-class SignUpForm extends StatefulWidget {
-  SignUpForm({super.key});
+class RegisterForm extends StatefulWidget {
+  RegisterForm({super.key});
 
   @override
-  State<SignUpForm> createState() => _SignUpFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _RegisterFormState extends State<RegisterForm> {
+  final TextEditingController id = TextEditingController();
   final TextEditingController email = TextEditingController();
-
+  final TextEditingController role = TextEditingController();
   final TextEditingController password = TextEditingController();
-
+  final TextEditingController confirmPassword = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -108,16 +114,16 @@ class _SignUpFormState extends State<SignUpForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
-                Text( 
-                  'Sign Up',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black,
-                  ),
+                
+                const SizedBox(height: 30),
+                MyTextFormField(
+                  controller: id,
+                  obscureText: false,
+                  labelText: 'ID:',
+                  hintText: 'Enter your ID',
+                  validatorText: 'Please enter your ID',
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 15),
                 MyTextFormField(
                   controller: email,
                   obscureText: false,
@@ -126,6 +132,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   validatorText: 'Please enter your email',
                 ),
                 const SizedBox(height: 15),
+                SelecterRole(role: role),
+                const SizedBox(height: 15),
                 MyTextFormField(
                   controller: password,
                   obscureText: true,
@@ -133,10 +141,21 @@ class _SignUpFormState extends State<SignUpForm> {
                   hintText: 'Enter your password',
                   validatorText: 'Please enter your password',
                 ),
+                const SizedBox(height: 15),
+                MyTextFormField(
+                  controller: confirmPassword,
+                  obscureText: true,
+                  labelText: 'Confirm Password:',
+                  hintText: 'Enter your confirm password',
+                  validatorText: 'Please enter your confirm password',
+                ),
                 const SizedBox(height: 20),
-                SignUpButtonBox(
+                RegisterButtonBox(
+                  id: id,
                   email: email,
+                  role: role,
                   password: password,
+                  confirmPassword: confirmPassword,
                   formKey: _formKey,
                 ),
                 const SizedBox(height: 10),
