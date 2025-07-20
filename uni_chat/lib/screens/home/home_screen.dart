@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         toolbarHeight: 80,
         actions: [
-          JoinToGroupButton(userId: user.uid),
+          JoinToGroupButton(userId: user.uid, userName: user.displayName),
           const SizedBox(width: 5),
           GestureDetector(
             onTap: () {
