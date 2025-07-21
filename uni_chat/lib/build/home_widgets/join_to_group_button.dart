@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_chat/build/home_widgets/provider_state.dart';
 import 'package:uni_chat/core/consts/consts.dart';
 
 class JoinToGroupButton extends StatefulWidget {
@@ -89,8 +91,14 @@ class _JoinToGroupButtonState extends State<JoinToGroupButton> {
                       context,
                       'Joined group "$groupId" successfully',
                     );
+                    // Clear the input field
                     _controller.clear();
                     Navigator.pop(context);
+                    // Update the join state in ProviderState
+                    Provider.of<ProviderState>(
+                      context,
+                      listen: false,
+                    ).toggleJoinState();
                   } catch (e) {
                     showSnackBarError(context, 'Error: ${e.toString()}');
                   } finally {

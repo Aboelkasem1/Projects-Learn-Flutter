@@ -6,6 +6,7 @@ import 'package:uni_chat/models/messageRegister.dart';
 import 'package:uni_chat/models/mode_model.dart';
 import 'package:uni_chat/models/selected_Index.dart';
 import 'package:uni_chat/models/user_model.dart';
+import 'package:uni_chat/screens/chat/reply_provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,6 +20,9 @@ void main() async {
         ChangeNotifierProvider(create: (context) => Messageregister()),
         ChangeNotifierProvider(create: (context) => ModeModel()),
         ChangeNotifierProvider(create: (context) => SelectedIndex()),
+        ChangeNotifierProvider<ReplyProvider>(
+          create: (context) => ReplyProvider(),
+        ),
       ],
       child: UniChat(),
     ),

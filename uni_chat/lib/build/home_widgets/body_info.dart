@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uni_chat/build/home_widgets/provider_state.dart';
 import 'package:uni_chat/screens/chat/chat_screen.dart';
 import 'package:uni_chat/build/home_widgets/image_bar.dart';
 
 class BodyInfo extends StatefulWidget {
   const BodyInfo({super.key});
-
   @override
   State<BodyInfo> createState() => _BodyInfoState();
 }
 
 class _BodyInfoState extends State<BodyInfo> {
   final User? user = FirebaseAuth.instance.currentUser;
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<List<Map<String, dynamic>>> getUserGroups() async {
     final snapshot = await firestore
         .collection('users')
-        .doc(user!.uid)
+        .doc(user?.uid)
         .collection('groups')
         .get();
 
@@ -32,59 +32,63 @@ class _BodyInfoState extends State<BodyInfo> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getUserGroups(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No groups found.'));
-        }
+    return Consumer<ProviderState>(
+      builder: (context, providerState, child) =>
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: getUserGroups(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No groups found.'));
+              }
 
-        final groups = snapshot.data!;
+              final groups = snapshot.data!;
 
-        return ListView.builder(
-          itemCount: groups.length,
-          itemBuilder: (context, index) {
-            final group = groups[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ChatScreen(group: group),
-                  ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: isDark ? Colors.grey[800] : Colors.grey[200],
-                  border: Border.symmetric(
-                    horizontal: BorderSide(
-                      color: isDark ? Colors.grey[700]! : Colors.grey[300]!,
+              return ListView.builder(
+                itemCount: groups.length,
+                itemBuilder: (context, index) {
+                  final group = groups[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(group: group),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: isDark ? Colors.grey[800] : Colors.grey[200],
+                        border: Border.symmetric(
+                          horizontal: BorderSide(
+                            color: isDark
+                                ? Colors.grey[700]!
+                                : Colors.grey[300]!,
+                          ),
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: const SizedBox(width: 70, child: ImageBar()),
+                        title: Text(
+                          group['name'],
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text('Group ID: ${group['groupId']}'),
+                      ),
                     ),
-                  ),
-                ),
-                child: ListTile(
-                  leading: const SizedBox(width: 70, child: ImageBar()),
-                  title: Text(
-                    group['name'],
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text('Group ID: ${group['groupId']}'),
-                ),
-              ),
-            );
-          },
-        );
-      },
+                  );
+                },
+              );
+            },
+          ),
     );
   }
 }

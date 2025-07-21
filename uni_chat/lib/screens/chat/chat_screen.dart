@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:uni_chat/build/chat_widgets/get_messages.dart';
+import 'package:uni_chat/screens/chat/reply_provider.dart';
+import 'package:uni_chat/services/cloudinary_service.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.group});
@@ -36,21 +40,51 @@ class _ChatScreenState extends State<ChatScreen> {
   void sendMessage() async {
     final text = _controller.text.trim();
     if (text.isEmpty || user == null) return;
+    final replyProvider = Provider.of<ReplyProvider>(context, listen: false);
+    final messageID = replyProvider.getMessageID;
 
     await messages.add({
       'senderId': user!.uid,
       'senderName': user!.displayName ?? 'Anonymous',
+      'replyMessageID': messageID,
+      'type': 'text',
       'message': text,
+      'imageUrl': '',
       'time': FieldValue.serverTimestamp(),
     });
 
+    replyProvider.clearReply();
     _controller.clear();
+  }
+
+  XFile? image;
+
+  Future<void> sendImageFromSource(ImageSource source) async {
+    final imageUrl = await CloudinaryService.uploadImage(source: source);
+    if (imageUrl == null || user == null) return;
+    final messageID = Provider.of<ReplyProvider>(
+      context,
+      listen: false,
+    ).getMessageID;
+
+    await messages.add({
+      'senderId': user!.uid,
+      'senderName': user!.displayName ?? 'Anonymous',
+      'replyMessageID': messageID,
+      'type': 'image',
+      'message': '',
+      'imageUrl': imageUrl,
+      'time': FieldValue.serverTimestamp(),
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final groupName = widget.group['name'] ?? 'Group Chat';
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final replyProvider = Provider.of<ReplyProvider>(context);
+    final replyingID = replyProvider.getMessageID;
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
@@ -64,6 +98,49 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: GetMessages(widget.group['groupId'], user?.uid ?? ''),
           ),
+          if (replyingID != null)
+            FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('groups')
+                  .doc(widget.group['groupId'])
+                  .collection('messages')
+                  .doc(replyingID)
+                  .get(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return SizedBox();
+                final replyData = snapshot.data!.data() as Map<String, dynamic>;
+                final replyText = replyData['message'] ?? '[Image]';
+
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.green[100],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Replying to: $replyText',
+                          style: const TextStyle(fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          replyProvider.clearReply();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
@@ -78,13 +155,53 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             child: Row(
               children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: isDark ? Colors.grey[700] : Colors.green[100],
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: IconButton(
+                      icon: const Icon(Icons.camera_alt),
+                      onPressed: () async {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (_) => SafeArea(
+                            child: Wrap(
+                              children: [
+                                ListTile(
+                                  leading: const Icon(Icons.camera),
+                                  title: const Text('Take Photo'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    sendImageFromSource(ImageSource.camera);
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(Icons.photo),
+                                  title: const Text('Choose from Gallery'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    sendImageFromSource(ImageSource.gallery);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+
                 Expanded(
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
                       filled: true,
-                      fillColor: isDark ? Colors.grey[700] : Colors.white,
+                      fillColor: isDark ? Colors.grey[700] : Colors.green[100],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide.none,
@@ -99,7 +216,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: isDark ? Colors.grey[700] : Colors.white,
+                    color: isDark ? Colors.grey[700] : Colors.green[100],
                     shape: BoxShape.circle,
                   ),
                   child: Center(
