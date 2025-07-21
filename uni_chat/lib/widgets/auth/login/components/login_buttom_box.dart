@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_chat/screens/admins/admin_screen.dart';
-import 'package:uni_chat/build/build_pages.dart';
+import 'package:uni_chat/widgets/navigation/build_pages.dart';
 
 class LoginButtonBox extends StatelessWidget {
   const LoginButtonBox({

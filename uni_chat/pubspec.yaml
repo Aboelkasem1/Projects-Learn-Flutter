@@ -49,6 +49,7 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   font_awesome_flutter: ^10.8.0
+  context_menu_android: ^1.0.3
 
 
 dev_dependencies:

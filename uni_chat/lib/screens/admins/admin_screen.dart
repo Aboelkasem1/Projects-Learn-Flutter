@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uni_chat/build/admin_widgets/screens/users_admin_controle_screen.dart';
+import 'package:uni_chat/widgets/admin/screens/users_admin_controle_screen.dart';
 import 'package:uni_chat/screens/auth/login_screen.dart';
 
 class AdminScreen extends StatelessWidget {

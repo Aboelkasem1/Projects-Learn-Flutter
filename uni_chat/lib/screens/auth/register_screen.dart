@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:uni_chat/build/auth_widgets/signin_or_signup_form.dart';
+import 'package:uni_chat/widgets/auth/signin_or_signup_form.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

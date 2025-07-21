@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni_chat/build/home_widgets/join_to_group_button.dart';
-import 'package:uni_chat/build/home_widgets/provider_state.dart';
+import 'package:uni_chat/widgets/home/join_to_group_button.dart';
+import 'package:uni_chat/widgets/home/provider_state.dart';
 import 'package:uni_chat/models/mode_model.dart';
 import 'package:uni_chat/screens/auth/login_screen.dart';
-import 'package:uni_chat/build/home_widgets/body_info.dart';
-import 'package:uni_chat/build/home_widgets/image_bar.dart';
+import 'package:uni_chat/widgets/home/body_info.dart';
+import 'package:uni_chat/widgets/home/image_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

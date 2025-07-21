@@ -4,7 +4,7 @@ import 'package:uni_chat/models/selected_Index.dart';
 import 'package:uni_chat/screens/account/account_screen.dart';
 import 'package:uni_chat/screens/home/home_screen.dart';
 import 'package:uni_chat/screens/settings/settings_screen.dart';
-import 'package:uni_chat/build/nav_bar_circle.dart';
+import 'package:uni_chat/widgets/navigation/nav_bar_circle.dart';
 
 class BuildPages extends StatefulWidget {
   const BuildPages({super.key});

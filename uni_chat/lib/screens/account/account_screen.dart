@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_chat/core/consts/consts.dart';
 import 'package:uni_chat/models/user_model.dart';
-import '../../build/account_widgets/avatar_widget.dart';
-import '../../build/account_widgets/editable_name_widget.dart';
-import '../../build/account_widgets/email_display.dart';
+import '../../widgets/account/avatar_widget.dart';
+import '../../widgets/account/editable_name_widget.dart';
+import '../../widgets/account/email_display.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);

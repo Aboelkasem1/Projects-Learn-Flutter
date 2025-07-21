@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uni_chat/build/chat_widgets/show_image.dart';
+import 'package:uni_chat/widgets/chat/show_image.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble({

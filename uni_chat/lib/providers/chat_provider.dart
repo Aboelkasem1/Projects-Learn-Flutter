@@ -11,7 +11,6 @@ class ReplyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   void clearReply() {
     _replyMessageID = null;
     notifyListeners();

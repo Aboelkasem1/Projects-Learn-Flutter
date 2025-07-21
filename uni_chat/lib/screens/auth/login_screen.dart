@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:uni_chat/models/mode_model.dart';
-import 'package:uni_chat/build/auth_widgets/login/components/logo_image_show.dart';
-import 'package:uni_chat/build/auth_widgets/signin_or_signup_form.dart';
+import 'package:uni_chat/widgets/auth/login/components/logo_image_show.dart';
+import 'package:uni_chat/widgets/auth/signin_or_signup_form.dart';
 import 'package:uni_chat/models/messageRegister.dart';
 
 

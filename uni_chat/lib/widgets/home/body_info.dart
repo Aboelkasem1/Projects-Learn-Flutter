@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uni_chat/build/home_widgets/provider_state.dart';
+import 'package:uni_chat/widgets/home/provider_state.dart';
 import 'package:uni_chat/screens/chat/chat_screen.dart';
-import 'package:uni_chat/build/home_widgets/image_bar.dart';
+import 'package:uni_chat/widgets/home/image_bar.dart';
 
 class BodyInfo extends StatefulWidget {
   const BodyInfo({super.key});
